@@ -1,32 +1,36 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveTrain;
+
+import java.util.function.DoubleSupplier;
 
 public class FieldOrientedDrive extends CommandBase {
-  /** Creates a new FieldOrientedDrive. */
-  public FieldOrientedDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+    private final DriveTrain driveTrain = DriveTrain.getInstance();
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+    private XboxController drivercont = new XboxController(0);
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+    public FieldOrientedDrive() {
+        addRequirements(driveTrain);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+    @Override
+    public void execute() {
+        // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
+        driveTrain.drive(
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                        drivercont.getLeftX(),
+                        drivercont.getLeftY(),
+                        drivercont.getRightX(),
+                        driveTrain.getGyroscopeRotation()
+                )
+        );
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    @Override
+    public void end(boolean interrupted) {
+        driveTrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
+    }
 }
