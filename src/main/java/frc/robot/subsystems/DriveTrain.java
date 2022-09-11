@@ -4,15 +4,19 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
@@ -49,17 +53,19 @@ public class DriveTrain extends SubsystemBase {
   // the robot counter-clockwise should
   // cause the angle reading to increase until it wraps back over to zero.
   // FIXME Remove if you are using a Pigeon
-  // private final PigeonIMU m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
+  private final WPI_Pigeon2 m_pigeon = new WPI_Pigeon2(DRIVETRAIN_PIGEON_ID);
   // FIXME Uncomment if you are using a NavX
-  private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
+  // private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
+
+  private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(m_kinematics, m_pigeon.getRotation2d());
+
+  private Pose2d pose; 
 
   // These are our modules. We initialize them in the constructor.
   private final SwerveModule m_frontLeftModule;
   private final SwerveModule m_frontRightModule;
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
-
-  private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
   public static DriveTrain getInstance() {
     if(instance == null) {
@@ -154,38 +160,52 @@ public class DriveTrain extends SubsystemBase {
   public void zeroGyroscope() {
     // FIXME Remove if you are using a Pigeon
     // m_pigeon.setFusedHeading(0.0);
+    m_pigeon.setYaw(0.0);
 
     // FIXME Uncomment if you are using a NavX
-    m_navx.zeroYaw();
+    // m_navx.zeroYaw();
   }
 
   public Rotation2d getGyroscopeRotation() {
     // FIXME Remove if you are using a Pigeon
     // return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
 
-    // FIXME Uncomment if you are using a NavX
-    if (m_navx.isMagnetometerCalibrated()) {
-    // We will only get valid fused headings if the magnetometer is calibrated
-    return Rotation2d.fromDegrees(m_navx.getFusedHeading());
-    }
+    return m_pigeon.getRotation2d();
+
+    // // FIXME Uncomment if you are using a NavX
+    // if (m_navx.isMagnetometerCalibrated()) {
+    // // We will only get valid fused headings if the magnetometer is calibrated
+    // return Rotation2d.fromDegrees(m_navx.getFusedHeading());
+    // }
     
-    // We have to invert the angle of the NavX so that rotating the robot
-    // counter-clockwise makes the angle increase.
-    return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+    // // We have to invert the angle of the NavX so that rotating the robot
+    // // counter-clockwise makes the angle increase.
+    // return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
-    m_chassisSpeeds = chassisSpeeds;
+    setStates(m_kinematics.toSwerveModuleStates(chassisSpeeds));
   }
 
-  @Override
-  public void periodic() {
-    SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+  public void setStates(SwerveModuleState[] states){
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
     m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
     m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+
+    // pose = odometry.update(getGyroscopeRotation(), states);
   }
+
+  public Pose2d getPose() {
+    return pose;
+  }
+
+  public SwerveDriveKinematics getKinematics(){
+    return m_kinematics;
+  }
+
+  @Override
+  public void periodic() {}
 }
