@@ -19,8 +19,14 @@ import frc.robot.subsystems.DriveTrain;
 /** Add your docs here. */
 public class AutoDrive extends SwerveControllerCommand{
     private static DriveTrain driveTrain = DriveTrain.getInstance();
-    public static double angleGoal;
-    public AutoDrive(Trajectory trajectory, double angle) {
+    public static double angle;
+
+    /**
+     * generates command for swerve to follow from given trajectory
+     * @param trajectory path for robot to follow
+     * @param degrees desired robot angle in degrees
+     */
+    public AutoDrive(Trajectory trajectory, double degrees) {
         
         //this constructor is a hellhole of functional interfaces
         //i dont know how i got it to work
@@ -37,12 +43,12 @@ public class AutoDrive extends SwerveControllerCommand{
             driveTrain
         );
 
-        angleGoal = angle;
+        angle = degrees;
 
     }
 
     public static Rotation2d getAngle() {
-        Rotation2d rot = new Rotation2d(angleGoal);
+        Rotation2d rot = new Rotation2d(angle);
 
         return rot;
     }
