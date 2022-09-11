@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import frc.robot.subsystems.DriveTrain;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -47,4 +50,18 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 0; // FIXME Set back right steer motor ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 0; // FIXME Set back right steer encoder ID
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0); // FIXME Measure and set back right steer offset
+
+    public static final class AutoConstants{
+
+        public static final double kMaxSpeedMetersPerSecond = 2.0;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 2.0;
+    
+        public static final TrajectoryConfig config =
+        new TrajectoryConfig(
+                AutoConstants.kMaxSpeedMetersPerSecond,
+                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+            // Add kinematics to ensure max speed is actually obeyed
+            .setKinematics(DriveTrain.getInstance().getKinematics());
+
+    }
 }
