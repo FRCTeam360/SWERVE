@@ -19,8 +19,13 @@ import frc.robot.commands.AutoDrive;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class test extends SequentialCommandGroup {
 
+  private Pose2d startingPose = new Pose2d(3, 4, new Rotation2d(90));
+
   public static final Trajectory phase1 = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0, 0, new Rotation2d()), 
+    new Pose2
+    
+    
+    d(0, 0, new Rotation2d()), 
     List.of(), 
     new Pose2d(2, 0, new Rotation2d()), 
     AutoConstants.config);
@@ -29,7 +34,7 @@ public class test extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoDrive(phase1, 0)
+      new AutoDrive(phase1, 0, startingPose)
     );
   }
 }

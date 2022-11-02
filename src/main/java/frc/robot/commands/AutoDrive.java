@@ -20,19 +20,21 @@ import frc.robot.subsystems.DriveTrain;
 public class AutoDrive extends SwerveControllerCommand{
     private static DriveTrain driveTrain = DriveTrain.getInstance();
     public static double angle;
+    private static Trajectory traj;
+    private static Pose2d startingPose;
 
     /**
      * generates command for swerve to follow from given trajectory
      * @param trajectory path for robot to follow
      * @param degrees desired robot angle in degrees
      */
-    public AutoDrive(Trajectory trajectory, double degrees) {
+    public AutoDrive(Trajectory trajectory, double degrees, Pose2d fieldRelPose) {
         
         //this constructor is a hellhole of functional interfaces
         //i dont know how i got it to work
         //so good luck repurposing or reimplementing it
         super(
-            trajectory,
+            getFieldRelativeTraj(),
             driveTrain::getPose, //get from drivetrain
             driveTrain.getKinematics(), //get from drivetrain
             new PIDController(1, 0, 0), //FIXME might wanna tune this
@@ -45,6 +47,9 @@ public class AutoDrive extends SwerveControllerCommand{
 
         angle = degrees;
 
+        traj = trajectory;
+        startingPose = fieldRelPose;
+
     }
 
     public static Rotation2d getAngle() {
@@ -53,5 +58,7 @@ public class AutoDrive extends SwerveControllerCommand{
         return rot;
     }
 
-    private void setStates(SwerveModuleState[] states){}
+    public static Trajectory getFieldRelativeTraj(){
+        return traj.relativeTo(startingPose);
+    }
 }
