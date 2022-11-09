@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
 
@@ -207,5 +208,12 @@ public class DriveTrain extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putNumber("front left angle", m_frontLeftModule.getSteerAngle());
+    SmartDashboard.putNumber("front right angle", m_frontRightModule.getSteerAngle());
+    SmartDashboard.putNumber("back left angle", m_backLeftModule.getSteerAngle());
+    SmartDashboard.putNumber("back right angle", m_backRightModule.getSteerAngle());
+
+    SmartDashboard.putNumber("robo angle", getGyroscopeRotation().getDegrees());
+  }
 }
