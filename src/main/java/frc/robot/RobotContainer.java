@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.FieldOrientedDrive;
+import frc.robot.commands.RobotOrientedDrive;
 // import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,6 +24,7 @@ public class RobotContainer {
   private final DriveTrain driveTrain = DriveTrain.getInstance();
   // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final FieldOrientedDrive fieldDrive = new FieldOrientedDrive();
+  private final RobotOrientedDrive robotDrive = new RobotOrientedDrive();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -40,7 +42,7 @@ public class RobotContainer {
   private void configureButtonBindings() {}
 
   private void configureDefaultCommands() {
-    driveTrain.setDefaultCommand(fieldDrive);
+    driveTrain.setDefaultCommand(robotDrive);
   }
 
   /**
