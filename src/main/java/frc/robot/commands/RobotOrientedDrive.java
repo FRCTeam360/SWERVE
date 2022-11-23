@@ -37,15 +37,15 @@ public class RobotOrientedDrive extends CommandBase {
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
         driveTrain.drive(
                 new ChassisSpeeds(
-                        getYWithDeadzone() * DriveTrain.MAX_VELOCITY_METERS_PER_SECOND,
-                        getXWithDeadzone() * DriveTrain.MAX_VELOCITY_METERS_PER_SECOND,
-                        getWithDeadzone(drivercont.getRightX() * DriveTrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+                        -getYWithDeadzone() * DriveTrain.MAX_VELOCITY_METERS_PER_SECOND,
+                        -getXWithDeadzone() * DriveTrain.MAX_VELOCITY_METERS_PER_SECOND,
+                        -getWithDeadzone(drivercont.getRightX()) * DriveTrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
                 )
         );
     }
 
     public double getWithDeadzone(double value){ //not sure if this is what you wanted me to do but i tried :(
-      if(Math.abs(value) <= 0.525){
+      if(Math.abs(value) <= 0.125){
           return 0.0;
       } else {
           return value;
