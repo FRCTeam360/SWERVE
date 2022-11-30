@@ -24,12 +24,15 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.Arrays;
 
 import static frc.robot.Constants.*;
 
 public class DriveTrain extends SubsystemBase {
   private static DriveTrain instance;
   public static final double MAX_VOLTAGE = 12.0;
+
+  public static Rotation2d[] stateAngles = {new Rotation2d(0.0),new Rotation2d(0.0),new Rotation2d(0.0),new Rotation2d(0.0)};
 
   public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0
       * SdsModuleConfigurations.MK4I_L1.getDriveReduction() * SdsModuleConfigurations.MK4I_L1.getWheelDiameter()
@@ -190,12 +193,30 @@ public class DriveTrain extends SubsystemBase {
 
   public void setStates(SwerveModuleState[] states){
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
-
-    m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
-    m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
-    m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
-    m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
-
+    boolean speedIsZero = false;
+    for(int i = 0; i<states.length; i++) {
+      if(states[i].speedMetersPerSecond == 0) {
+        speedIsZero = true;
+      } else {
+        speedIsZero = false;
+        break;
+      }
+    }
+    if(!speedIsZero){
+      m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
+      m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
+      m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
+      m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+      for(int i = 0; i<states.length; i++) {
+        stateAngles[i] = states[i].angle;
+      }
+    } else{
+      // return angles with no speed
+      m_frontLeftModule.set(0.0, stateAngles[0].getRadians());
+      m_frontRightModule.set(0.0, stateAngles[1].getRadians());
+      m_backLeftModule.set(0.0, stateAngles[2].getRadians());
+      m_backRightModule.set(0.0, stateAngles[3].getRadians());
+    }
     // pose = odometry.update(getGyroscopeRotation(), states);
   }
 

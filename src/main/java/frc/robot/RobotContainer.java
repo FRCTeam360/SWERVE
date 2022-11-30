@@ -42,7 +42,7 @@ public class RobotContainer {
   private void configureButtonBindings() {}
 
   private void configureDefaultCommands() {
-    driveTrain.setDefaultCommand(robotDrive);
+    driveTrain.setDefaultCommand(fieldDrive);
   }
 
   /**
