@@ -65,6 +65,8 @@ public class DriveTrain extends SubsystemBase {
 
   private Pose2d pose; 
 
+  private ChassisSpeeds currentVelocity = new ChassisSpeeds();
+
   // These are our modules. We initialize them in the constructor.
   private final SwerveModule m_frontLeftModule;
   private final SwerveModule m_frontRightModule;
@@ -228,6 +230,28 @@ public class DriveTrain extends SubsystemBase {
     return m_kinematics;
   }
 
+  public void setPose(Pose2d pose) {
+    odometry.resetPosition(pose, getGyroscopeRotation());
+  }
+
+  public ChassisSpeeds getCurrentVelocity() {
+    return currentVelocity;
+  }
+
   @Override
-  public void periodic() {}
+  public void periodic() {
+SwerveModuleState currentFrontLeftModuleState = new SwerveModuleState(m_frontLeftModule.getDriveVelocity(),
+    new Rotation2d(m_frontLeftModule.getSteerAngle()));
+SwerveModuleState currentFrontRightModuleState = new SwerveModuleState(m_frontRightModule.getDriveVelocity(),
+    new Rotation2d(m_frontRightModule.getSteerAngle()));
+SwerveModuleState currentBackLeftModuleState = new SwerveModuleState(m_backLeftModule.getDriveVelocity(),
+    new Rotation2d(m_backLeftModule.getSteerAngle()));
+SwerveModuleState currentBackRightModuleState = new SwerveModuleState(m_backRightModule.getDriveVelocity(),
+    new Rotation2d(m_backRightModule.getSteerAngle()));
+
+currentVelocity = m_kinematics.toChassisSpeeds(currentFrontLeftModuleState, currentFrontRightModuleState,
+    currentBackLeftModuleState, currentBackRightModuleState);
+    System.out.println("ratio" + SdsModuleConfigurations.MK4I_L1.getDriveReduction());
+    System.out.println("meters per rotation" + SdsModuleConfigurations.MK4I_L1.getDriveReduction() * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI);
+  }
 }
