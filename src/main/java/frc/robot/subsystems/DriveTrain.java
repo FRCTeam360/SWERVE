@@ -251,7 +251,10 @@ SwerveModuleState currentBackRightModuleState = new SwerveModuleState(m_backRigh
 
 currentVelocity = m_kinematics.toChassisSpeeds(currentFrontLeftModuleState, currentFrontRightModuleState,
     currentBackLeftModuleState, currentBackRightModuleState);
-    System.out.println("ratio" + SdsModuleConfigurations.MK4I_L1.getDriveReduction());
-    System.out.println("meters per rotation" + SdsModuleConfigurations.MK4I_L1.getDriveReduction() * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI);
+
+    pose = odometry.update(getGyroscopeRotation(), currentFrontLeftModuleState, currentFrontRightModuleState,
+    currentBackLeftModuleState, currentBackRightModuleState);
+    // System.out.println("ratio" + SdsModuleConfigurations.MK4I_L1.getDriveReduction());
+    // System.out.println("meters per rotation" + SdsModuleConfigurations.MK4I_L1.getDriveReduction() * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI);
   }
 }

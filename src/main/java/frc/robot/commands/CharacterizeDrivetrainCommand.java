@@ -25,8 +25,10 @@ public class CharacterizeDrivetrainCommand extends CommandBase {
 
     @Override
     public void execute() {
+        System.out.println("char");
         // Update the data
         double position = drivetrain.getPose().getX();
+        System.out.println("position: " + position);
         double velocity = drivetrain.getCurrentVelocity().vxMetersPerSecond;
         logger.log(position, velocity);
 
