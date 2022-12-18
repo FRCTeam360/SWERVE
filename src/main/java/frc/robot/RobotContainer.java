@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.autos.test;
 import frc.robot.commands.CharacterizeDrivetrainCommand;
 import frc.robot.commands.FieldOrientedDrive;
 import frc.robot.commands.RobotOrientedDrive;
@@ -30,6 +31,8 @@ public class RobotContainer {
   private final RobotOrientedDrive robotDrive = new RobotOrientedDrive();
   private final CharacterizeDrivetrainCommand characterize = new CharacterizeDrivetrainCommand(driveTrain);
 
+  private final test test = new test();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -46,7 +49,7 @@ public class RobotContainer {
   private void configureButtonBindings() {}
 
   private void configureDefaultCommands() {
-    driveTrain.setDefaultCommand(characterize);
+    driveTrain.setDefaultCommand(fieldDrive);
   }
 
   /**
@@ -56,6 +59,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return characterize;
+    return test;
   }
 }

@@ -41,7 +41,7 @@ public class DriveTrain extends SubsystemBase {
   public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
       Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
-  private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+  public final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
       // Front left
       new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
       // Front right
@@ -234,12 +234,18 @@ public class DriveTrain extends SubsystemBase {
     odometry.resetPosition(pose, getGyroscopeRotation());
   }
 
+  public void resetPose(){
+    odometry.resetPosition(new Pose2d(), getGyroscopeRotation());
+  }
+
   public ChassisSpeeds getCurrentVelocity() {
     return currentVelocity;
   }
 
   @Override
   public void periodic() {
+
+    // System.out.println("max vel " + MAX_VELOCITY_METERS_PER_SECOND);
 SwerveModuleState currentFrontLeftModuleState = new SwerveModuleState(m_frontLeftModule.getDriveVelocity(),
     new Rotation2d(m_frontLeftModule.getSteerAngle()));
 SwerveModuleState currentFrontRightModuleState = new SwerveModuleState(m_frontRightModule.getDriveVelocity(),
