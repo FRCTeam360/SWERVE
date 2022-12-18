@@ -39,7 +39,7 @@
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [
           "marker 1"
@@ -80,18 +80,18 @@
         "y": 1.9545339090678182
       },
       "prevControl": {
-        "x": 5.73134003410864,
-        "y": 1.6312275481693823
+        "x": 5.730592559340045,
+        "y": 1.6298045465555369
       },
       "nextControl": {
-        "x": 4.397658150835064,
-        "y": 2.329822820360303
+        "x": 4.254663770307398,
+        "y": 2.407254368636596
       },
       "holonomicAngle": 147.52880770915152,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [
           "marker 2"
@@ -107,18 +107,18 @@
         "y": 1.4842701113973653
       },
       "prevControl": {
-        "x": 2.8163229423595446,
-        "y": 2.2696149894038116
+        "x": 2.762799811317142,
+        "y": 2.1602743205446795
       },
       "nextControl": {
-        "x": 0.9258318516637034,
-        "y": 1.116876519467325
+        "x": 2.762799811317142,
+        "y": 2.1602743205446795
       },
       "holonomicAngle": -136.2188752351313,
-      "isReversal": false,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -128,17 +128,17 @@
     },
     {
       "anchorPoint": {
-        "x": 4.232374179034073,
-        "y": 3.1595848905983526
+        "x": 4.355063794378925,
+        "y": 3.2743454856179626
       },
       "prevControl": {
-        "x": 4.232374179034073,
-        "y": 3.1448891469211513
+        "x": 3.049863481449078,
+        "y": 3.3838727846050833
       },
       "nextControl": null,
-      "holonomicAngle": 12.3390872783262,
+      "holonomicAngle": 12.652556500557933,
       "isReversal": false,
-      "velOverride": 2.0,
+      "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
