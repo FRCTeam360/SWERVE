@@ -39,7 +39,7 @@
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [
           "marker 1"
@@ -91,7 +91,7 @@
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [
           "marker 2"
@@ -107,18 +107,18 @@
         "y": 1.4842701113973653
       },
       "prevControl": {
-        "x": 2.762799811317142,
-        "y": 2.1602743205446795
+        "x": 1.3075528040224775,
+        "y": 1.246157730281554
       },
       "nextControl": {
-        "x": 2.762799811317142,
-        "y": 2.1602743205446795
+        "x": 2.4853395585581737,
+        "y": 2.516265720783397
       },
       "holonomicAngle": -136.2188752351313,
-      "isReversal": true,
+      "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -132,11 +132,11 @@
         "y": 3.2743454856179626
       },
       "prevControl": {
-        "x": 3.049863481449078,
-        "y": 3.3838727846050833
+        "x": 3.1156441530739643,
+        "y": 2.8875456216190747
       },
       "nextControl": null,
-      "holonomicAngle": 12.652556500557933,
+      "holonomicAngle": 24.266387350574774,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,

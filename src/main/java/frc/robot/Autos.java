@@ -24,11 +24,12 @@ public class Autos {
     // This will load the file "FullAuto.path" and generate it with a max velocity
     // of 4 m/s and a max acceleration of 3 m/s^2
     // for every path in the group
-    private static ArrayList<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("five ball", new PathConstraints(4, 4));
+    private static ArrayList<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("hub five ball", new PathConstraints(4, 4));
 
     // This is just an example event map. It would be better to have a constant,
     // global event map
     // in your code that will be used by all path following commands.
+
     private static HashMap<String, Command> eventMap = new HashMap<>() {{
         put("marker 1", new PrintCommand("passed marker 1"));
         put("marker 2", new PrintCommand("passed marker 2"));
