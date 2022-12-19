@@ -147,5 +147,12 @@ public class SwerveModuleFactory<DC, SC> {
             driveController.setReferenceVoltage(driveVoltage);
             steerController.setReferenceAngle(steerAngle);
         }
+
+
+
+        @Override
+        public void resetSteerEncoder() {
+            steerController.resetEncoder();
+        }
     }
 }

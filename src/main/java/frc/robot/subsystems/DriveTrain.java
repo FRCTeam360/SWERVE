@@ -7,9 +7,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
-import frc.robot.com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
-import frc.robot.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import frc.robot.com.swervedrivespecialties.swervelib.SwerveModule;
+import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -240,6 +240,13 @@ public class DriveTrain extends SubsystemBase {
 
   public ChassisSpeeds getCurrentVelocity() {
     return currentVelocity;
+  }
+
+  public void resetSteerEncoders() {
+    m_frontLeftModule.resetSteerEncoder();
+    m_frontRightModule.resetSteerEncoder();
+    m_backLeftModule.resetSteerEncoder();
+    m_backRightModule.resetSteerEncoder();
   }
 
   @Override

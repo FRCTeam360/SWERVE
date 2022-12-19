@@ -31,6 +31,8 @@ public interface SwerveModule {
      */
     double getSteerAngle();
 
+    void resetSteerEncoder();
+
     default SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getSteerAngle()));
     }

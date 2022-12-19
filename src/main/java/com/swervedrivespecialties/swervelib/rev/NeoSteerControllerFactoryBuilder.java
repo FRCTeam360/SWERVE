@@ -177,5 +177,8 @@ public final class NeoSteerControllerFactoryBuilder {
 
             return motorAngleRadians;
         }
+
+        @Override
+        public void resetEncoder(){}
     }
 }
