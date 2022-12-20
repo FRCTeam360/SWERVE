@@ -179,6 +179,11 @@ public final class NeoSteerControllerFactoryBuilder {
         }
 
         @Override
-        public void resetEncoder(){}
+        public void resetEncoder() {
+            if (motorEncoder.getVelocity() < ENCODER_RESET_MAX_ANGULAR_VELOCITY) {
+                double absoluteAngle = absoluteEncoder.getAbsoluteAngle();
+                motorEncoder.setPosition(absoluteAngle);
+            }
+        }
     }
 }
