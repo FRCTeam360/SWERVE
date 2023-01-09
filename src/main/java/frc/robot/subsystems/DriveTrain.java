@@ -11,6 +11,7 @@ import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -31,6 +32,11 @@ import static frc.robot.Constants.*;
 public class DriveTrain extends SubsystemBase {
   private static DriveTrain instance;
   public static final double MAX_VOLTAGE = 12.0;
+
+  private static final double ADJUSTMENT_FACTOR = 0.015;
+
+  private PIDController pitchController = new PIDController(0.015, 0, 0);
+  private PIDController rollController = new PIDController(0.015, 0, 0);
 
   public static Rotation2d[] stateAngles = {new Rotation2d(0.0),new Rotation2d(0.0),new Rotation2d(0.0),new Rotation2d(0.0)};
 
@@ -187,6 +193,17 @@ public class DriveTrain extends SubsystemBase {
     // // We have to invert the angle of the NavX so that rotating the robot
     // // counter-clockwise makes the angle increase.
     // return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+  }
+
+  public void adjustAnglePosition(){
+    drive(
+      new ChassisSpeeds(
+        // m_pigeon.getPitch() * ADJUSTMENT_FACTOR, 
+        // m_pigeon.getRoll() * ADJUSTMENT_FACTOR, 
+        pitchController.calculate(m_pigeon.getPitch(), 0),
+        rollController.calculate(m_pigeon.getRoll(), 0),
+        0)
+    );
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
